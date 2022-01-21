@@ -1,9 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using Software9119.WeakEvent;
+
 using System;
 using System.Reflection;
-
-using WeakEventCurator;
 
 namespace WeakEventCuratorTest.WeakHandlerTest
 {
@@ -39,6 +39,15 @@ namespace WeakEventCuratorTest.WeakHandlerTest
       GC.Collect();
 
       Assert.IsTrue(weakHandler.IsAlive);
+    }
+
+    [TestMethod]
+    public void IsAlive_StaticHandler_ConsideredAsAlive ()
+    {
+      var aide = new WeakHandlerTestsAide();
+      WeakHandler weakHandler = aide.WeakHandler_StaticHandler_StaticException();
+
+      Assert.IsTrue (weakHandler.IsAlive);
     }
 
     #endregion
@@ -132,6 +141,24 @@ namespace WeakEventCuratorTest.WeakHandlerTest
       catch (TargetInvocationException tie)
       {
         Assert.AreEqual(WeakHandlerTestsAide.Target.ExceptionMessage, tie.InnerException.Message);
+      }
+    }
+
+    [TestMethod]
+    public void Invoke_StaticHandler_HandlerIvoked ()
+    {
+      var aide = new WeakHandlerTestsAide();
+      WeakHandler wh = aide.WeakHandler_StaticHandler_StaticException();
+
+      Assert.ThrowsException<TargetInvocationException> (() => wh.Invoke ());
+      
+      try
+      {
+        wh.Invoke ();
+      }
+      catch (TargetInvocationException tie)
+      {
+        Assert.AreEqual (WeakHandlerTestsAide.Target.ExceptionMessage, tie.InnerException.Message);
       }
     }
 
