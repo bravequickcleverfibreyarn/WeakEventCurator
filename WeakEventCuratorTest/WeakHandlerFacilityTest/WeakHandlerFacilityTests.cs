@@ -3,6 +3,7 @@
 using Software9119.WeakEvent;
 
 using System;
+using System.Collections.Generic;
 
 namespace WeakEventCuratorTest.WeakHandlerFacilityTest;
 
@@ -35,5 +36,15 @@ sealed public class WeakHandlerFacilityTests
     WeakHandler wh = WeakHandlerFacility.WeakHandler ( string.Intern );
 
     Assert.AreEqual ( typeof ( WeakHandler ), wh.GetType () );
+  }
+
+  [TestMethod]
+  public void WeakHandlerCleanUpConstruction__GetsProperConstructionFuction ()
+  {
+    Func<Dictionary<int, List<WeakHandler>>, WeakHandlerCleanUp> construction
+      = WeakHandlerFacility.WeakHandlerCleanUpConstruction ( TimeSpan.FromDays ( 1 ) );
+
+    WeakHandlerCleanUp whcu = construction(default!);
+    Assert.AreEqual ( typeof ( WeakHandlerCleanUp ), whcu.GetType () );
   }
 }

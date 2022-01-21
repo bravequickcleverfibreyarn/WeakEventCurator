@@ -20,7 +20,7 @@ abstract public class WeakHandlerCleanUpTests_Shared
   WeakHandlerCleanUp WeakHandlerCleanUp ( Dictionary<int, List<WeakHandler>> test, int intervalMillisecs )
     => WeakHandlerCleanUp ( test, TimeSpan.FromMilliseconds ( intervalMillisecs ) );
 
-  WeakHandlerCleanUp WeakHandlerCleanUp ( Dictionary<int, List<WeakHandler>> test, TimeSpan interval )
+  protected WeakHandlerCleanUp WeakHandlerCleanUp ( Dictionary<int, List<WeakHandler>> test, TimeSpan interval )
   => (WeakHandlerCleanUp) Activator.CreateInstance
     (
       type: WeakHandlerCleanUpType,
@@ -194,16 +194,5 @@ abstract public class WeakHandlerCleanUpTests_Shared
     Assert.AreEqual ( 2, target.TestCount );
 
     await whcu.DisposeAsync ();
-  }
-
-  [TestMethod]
-  public void Interval_IsNotGreaterThanZero__ThrowsArgumentOutOfRangeException ()
-  {
-    TargetInvocationException tie = Assert.ThrowsException<TargetInvocationException>
-    (
-      () => WeakHandlerCleanUp ( new (), TimeSpan.Zero )
-    );
-
-    Assert.AreEqual ( typeof ( ArgumentOutOfRangeException ), tie.InnerException!.GetType () );
   }
 }
