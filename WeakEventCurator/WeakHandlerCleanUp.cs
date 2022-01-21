@@ -36,15 +36,15 @@ public class WeakHandlerCleanUp : IDisposable, IAsyncDisposable
 
   /// <remarks>  
   /// <para>
-  /// <see langword="override"/> <see cref="WeakEventCurator.AddHandlerActual(Delegate, object, string)"/>, <seealso cref="WeakEventCurator.RemoveHandlerActual(Delegate, object, string)"/>,
+  /// <see langword="override"/> <see cref="WeakEventCurator.AddActual(object, string, Delegate[])"/>, <seealso cref="WeakEventCurator.RemoveActual(object, string, Delegate[])"/>,
   /// <see cref="WeakEventCurator.InvokeActual(object, string, object[])"/> and <see cref="ClearHandlersActual(Dictionary{int, List{WeakHandler}})"/>
   /// implementations in derived classes when seeking optimal perfomance profile for specific scenario.
   /// </para>
   /// <para>
-  /// Actual implementation synchronization is realized through <see langword="lock"/>ing on discrete dictionary of handlers.
+  /// Actual implementation synchronization is realized through <see langword="lock"/>ing on discrete collections of handlers.
   /// </para>
   /// <para>
-  /// If method cannot take <see langword="lock"/> on handler dictionary, skips iteration.
+  /// If <see langword="lock"/> cannot be taken on handler collection, iteration is skipped.
   /// </para>
   /// </remarks>
   virtual protected void ClearHandlersActual ( Dictionary<int, List<WeakHandler>> handlerLists )
@@ -56,18 +56,14 @@ public class WeakHandlerCleanUp : IDisposable, IAsyncDisposable
       foreach (KeyValuePair<int, List<WeakHandler>> kv in handlerLists)
       {
         List<WeakHandler> list = kv.Value;
-
-        for (int index = list.Count - 1; index > -1; --index)
+        if (Monitor.TryEnter (list)) // Minimize contention with client code.
         {
-          WeakHandler wh = list[index];
-          if (wh.IsAlive)
-            continue;
+          _ = list.RemoveAll (wh => !wh.IsAlive);
+          if (list.Count == 0)
+            _ = handlerLists.Remove (kv.Key);
 
-          _ = list.Remove (wh);
+          Monitor.Exit (list);
         }
-
-        if (list.Count == 0)
-          _ = handlerLists.Remove (kv.Key);
       }
 
       Monitor.Exit (handlerLists);
