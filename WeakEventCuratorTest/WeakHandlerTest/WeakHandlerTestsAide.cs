@@ -2,11 +2,9 @@
 using Software9119.WeakEvent;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WeakEventCuratorTest.WeakHandlerTest;
 
-[SuppressMessage ("Performance", "CA1822:Mark members as static", Justification = "Can result in doubled dot notation invocation manner.")]
 class WeakHandlerTestsAide
 {
   public WeakHandlerTestsAide () => Target = new TargetModel ();
