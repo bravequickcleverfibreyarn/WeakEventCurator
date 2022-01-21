@@ -8,7 +8,7 @@ using WeakEventCuratorTest.WeakEventCuratorTest.Disctinction;
 namespace WeakEventCuratorTest.WeakEventCuratorTest;
 
 [TestClass]
-public class WeakEventCurator__InheritedTests_Invoke : WeakEventCuratorTests_Invoke_Shared
+sealed public class WeakEventCurator__InheritedTests_Invoke : WeakEventCuratorTests_Invoke_Shared
 {
   override protected Type WeakEventCuratorType => typeof ( WeakEventCurator__Inherited );
 }
