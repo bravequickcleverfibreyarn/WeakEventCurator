@@ -12,7 +12,7 @@ abstract public class WeakEventCuratorTests_Shared
   // Class  set up
 
   [ClassInitialize]
-  static public void Init ( TestContext _ ) => WeakEventCurator = new WeakEventCurator ( default, ( x, y ) => new WeakHandlerCleanUp ( x, y ) );
+  static public void Init ( TestContext _ ) => WeakEventCurator = new WeakEventCurator ( x => new WeakHandlerCleanUp ( x, TimeSpan.FromDays ( 1 ) ) );
   [ClassCleanup]
   static public void Cleansing () => WeakEventCurator.Dispose ();
 
