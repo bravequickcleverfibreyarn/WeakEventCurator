@@ -9,9 +9,9 @@ using WeakEventCuratorTest.WeakEventCuratorTest.Abstract;
 namespace WeakEventCuratorTest.WeakEventCuratorTest;
 
 [TestClass]
-sealed public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_Shared
+public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shared
 {
-  override protected AddRemoveMethod OneOfAddRemoveMethods => WeakEventCurator ().Remove;
+  sealed override protected AddRemoveMethod OneOfAddRemoveMethods => WeakEventCurator ().Remove;
 
   override protected Type WeakEventCuratorType { get; } = typeof ( WeakEventCurator );
 
