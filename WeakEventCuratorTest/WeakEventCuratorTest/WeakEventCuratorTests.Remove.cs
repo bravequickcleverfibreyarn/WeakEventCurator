@@ -11,7 +11,7 @@ namespace WeakEventCuratorTest.WeakEventCuratorTest;
 [TestClass]
 public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shared
 {
-  sealed override protected AddRemoveMethod OneOfAddRemoveMethods => WeakEventCurator ().Remove;
+  sealed override protected AddRemove AddRemoveDelegate => WeakEventCurator ().Remove;
 
   override protected Type WeakEventCuratorType { get; } = typeof ( WeakEventCurator );
 
