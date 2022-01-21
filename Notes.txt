@@ -1,0 +1,1 @@
+﻿• invent selfextending collection with better characteristics than List<T>

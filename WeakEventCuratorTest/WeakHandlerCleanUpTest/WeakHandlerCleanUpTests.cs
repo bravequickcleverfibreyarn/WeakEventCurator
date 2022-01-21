@@ -34,18 +34,18 @@ public class WeakHandlerCleanUpTests
     WeakHandlerCleanUp whcu = new (test, TimeSpan.FromMilliseconds(cleanUpIntervalMillisec));
     await WaitWhile ();
 
-    Assert.AreEqual (mortalsCount, mortalHandlers.Count);
-    Assert.AreEqual (1, test.Count);
+    Assert.AreEqual ( mortalsCount, mortalHandlers.Count );
+    Assert.AreEqual ( 1, test.Count );
 
     GC.Collect (); // Have mortals die.
     await WaitWhile ();
 
-    Assert.AreEqual (0, mortalHandlers.Count);
-    Assert.AreEqual (0, test.Count);
+    Assert.AreEqual ( 0, mortalHandlers.Count );
+    Assert.AreEqual ( 0, test.Count );
 
     await whcu.DisposeAsync ();
 
-    static Task WaitWhile () => Task.Delay (cleanUpIntervalMillisec * 2);
+    static Task WaitWhile () => Task.Delay ( cleanUpIntervalMillisec * 2 );
   }
 
   [TestMethod]
@@ -71,22 +71,22 @@ public class WeakHandlerCleanUpTests
     WeakHandlerCleanUp whcu = new (test, TimeSpan.FromMilliseconds(cleanUpIntervalMillisec));
     await WaitWhile ();
 
-    Assert.AreEqual (4, mixedHandlers.Count);
-    Assert.AreEqual (1, test.Count);
+    Assert.AreEqual ( 4, mixedHandlers.Count );
+    Assert.AreEqual ( 1, test.Count );
 
     GC.Collect (); // Have mortals die.
     await WaitWhile ();
 
-    Assert.AreEqual (2, mixedHandlers.Count);
-    Assert.AreEqual (1, test.Count);
+    Assert.AreEqual ( 2, mixedHandlers.Count );
+    Assert.AreEqual ( 1, test.Count );
 
-    Assert.AreEqual (0, target.TestCount);
-    mixedHandlers.ForEach (x => x.Invoke (null));
-    Assert.AreEqual (2, target.TestCount);
+    Assert.AreEqual ( 0, target.TestCount );
+    mixedHandlers.ForEach ( x => x.Invoke ( null ) );
+    Assert.AreEqual ( 2, target.TestCount );
 
     await whcu.DisposeAsync ();
 
-    static Task WaitWhile () => Task.Delay (cleanUpIntervalMillisec * 2);
+    static Task WaitWhile () => Task.Delay ( cleanUpIntervalMillisec * 2 );
   }
 
   [TestMethod]
@@ -109,18 +109,18 @@ public class WeakHandlerCleanUpTests
     WeakHandlerCleanUp whcu = new (test, TimeSpan.FromMilliseconds(cleanUpIntervalMillisec));
     await WaitWhile ();
 
-    Assert.AreEqual (2, immortalHandlers.Count);
-    Assert.AreEqual (1, test.Count);
+    Assert.AreEqual ( 2, immortalHandlers.Count );
+    Assert.AreEqual ( 1, test.Count );
 
     GC.Collect (); // Have mortals die.
     await WaitWhile ();
 
-    Assert.AreEqual (2, immortalHandlers.Count);
-    Assert.AreEqual (1, test.Count);
+    Assert.AreEqual ( 2, immortalHandlers.Count );
+    Assert.AreEqual ( 1, test.Count );
 
     await whcu.DisposeAsync ();
 
-    static Task WaitWhile () => Task.Delay (cleanUpIntervalMillisec * 2);
+    static Task WaitWhile () => Task.Delay ( cleanUpIntervalMillisec * 2 );
   }
 
   [TestMethod]
@@ -162,29 +162,29 @@ public class WeakHandlerCleanUpTests
     WeakHandlerCleanUp whcu = new (test, TimeSpan.FromMilliseconds(cleanUpIntervalMillisec));
     await WaitWhile ();
 
-    Assert.AreEqual (mortalsCount, mortalHandlers.Count);
-    Assert.AreEqual (4, mixedHandlers.Count);
-    Assert.AreEqual (2, immortalHandlers.Count);
+    Assert.AreEqual ( mortalsCount, mortalHandlers.Count );
+    Assert.AreEqual ( 4, mixedHandlers.Count );
+    Assert.AreEqual ( 2, immortalHandlers.Count );
 
-    Assert.AreEqual (3, test.Count);
+    Assert.AreEqual ( 3, test.Count );
 
     GC.Collect (); // Have mortals die.
     await WaitWhile ();
 
-    Assert.AreEqual (2, test.Count);
+    Assert.AreEqual ( 2, test.Count );
 
-    Assert.AreEqual (0, mortalHandlers.Count);
+    Assert.AreEqual ( 0, mortalHandlers.Count );
     mortalHandlers = null!;
-    Assert.AreEqual (2, immortalHandlers.Count);
+    Assert.AreEqual ( 2, immortalHandlers.Count );
     immortalHandlers = null!;
-    Assert.AreEqual (2, mixedHandlers.Count);
+    Assert.AreEqual ( 2, mixedHandlers.Count );
 
-    Assert.AreEqual (0, target.TestCount);
-    mixedHandlers.ForEach (x => x.Invoke (null));
-    Assert.AreEqual (2, target.TestCount);
+    Assert.AreEqual ( 0, target.TestCount );
+    mixedHandlers.ForEach ( x => x.Invoke ( null ) );
+    Assert.AreEqual ( 2, target.TestCount );
 
     await whcu.DisposeAsync ();
 
-    static Task WaitWhile () => Task.Delay (cleanUpIntervalMillisec * 2);
+    static Task WaitWhile () => Task.Delay ( cleanUpIntervalMillisec * 2 );
   }
 }
