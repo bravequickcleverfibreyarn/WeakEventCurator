@@ -10,22 +10,6 @@ namespace WeakEventCuratorTest.WeakEventCuratorTest;
 public class WeakEventCuratorTests_Invoke
 {
   [TestMethod]
-  public void EventSource_IsNull__ThrowsArgumentNullException ()
-  {
-    using WeakEventCurator weakEventCurator = new ( default );
-
-    _ = Assert.ThrowsException<ArgumentNullException> ( () => weakEventCurator.Invoke ( null!, "", default ) );
-  }
-
-  [TestMethod]
-  public void EventName_IsNull__ThrowsArgumentNullException ()
-  {
-    using WeakEventCurator weakEventCurator = new ( default );
-
-    _ = Assert.ThrowsException<ArgumentNullException> ( () => weakEventCurator.Invoke ( new object (), null!, default ) );
-  }
-
-  [TestMethod]
   public void EventSource_IsUnknown__ThrowsArgumentException ()
   {
     using WeakEventCurator weakEventCurator = new ( default );

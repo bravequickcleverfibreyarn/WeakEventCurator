@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Software9119.WeakEvent;
 
@@ -26,18 +26,6 @@ abstract public class WeakEventCuratorTests_Shared
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
   // Execution
-
-  [TestMethod]
-  public void EventSource_IsNull__ThrowsArgumentNullException ()
-  {
-    _ = Assert.ThrowsException<ArgumentNullException> ( () => OneOfAddRemoveMethods ( null!, "", string.IsNullOrWhiteSpace ) );
-  }
-
-  [TestMethod]
-  public void EventName_IsNull__ThrowsArgumentNullException ()
-  {
-    _ = Assert.ThrowsException<ArgumentNullException> ( () => OneOfAddRemoveMethods ( new object (), null!, string.IsNullOrWhiteSpace ) );
-  }
 
   [TestMethod]
   public void Handlers_IsNull__ThrowsArgumentNullException ()
