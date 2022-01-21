@@ -13,32 +13,32 @@ namespace WeakEventCuratorTest.WeakHandlerTest
     #region IsAlive
 
     [TestMethod]
-    public void IsAlive_NoReferenceToTarget_IsCollected()
+    public void IsAlive_NoReferenceToTarget_IsCollected ()
     {
       var aide = new WeakHandlerTestsAide();
       WeakHandler weakHandler = aide.WeakHandler_NewTarget_Handler1();
 
-      GC.Collect();
+      GC.Collect ();
 
-      Assert.IsFalse(weakHandler.IsAlive);
+      Assert.IsFalse (weakHandler.IsAlive);
 
       // Compiler verification
 
-      weakHandler = aide.WeakHandler_ExistingTarget_Handler1();
-      GC.Collect();
+      weakHandler = aide.WeakHandler_ExistingTarget_Handler1 ();
+      GC.Collect ();
 
-      Assert.IsTrue(weakHandler.IsAlive);
+      Assert.IsTrue (weakHandler.IsAlive);
     }
 
     [TestMethod]
-    public void IsAlive_ReferenceToTargetExists_IsNotCollected()
+    public void IsAlive_ReferenceToTargetExists_IsNotCollected ()
     {
       var aide = new WeakHandlerTestsAide();
       var weakHandler = aide.WeakHandler_ExistingTarget_Handler1();
 
-      GC.Collect();
+      GC.Collect ();
 
-      Assert.IsTrue(weakHandler.IsAlive);
+      Assert.IsTrue (weakHandler.IsAlive);
     }
 
     [TestMethod]
@@ -54,93 +54,93 @@ namespace WeakEventCuratorTest.WeakHandlerTest
     #region Equals
 
     [TestMethod]
-    public void Equals_TargetIsDead_NotEqual()
+    public void Equals_TargetIsDead_NotEqual ()
     {
       var aide = new WeakHandlerTestsAide();
 
       WeakHandler gauge = aide.WeakHandler_NewTarget_Handler1();
-      GC.Collect();
+      GC.Collect ();
 
       Delegate comparand = aide.Delegate_ExistingTarget_Handler1;
 
-      Assert.IsFalse(gauge.Equals(comparand));
+      Assert.IsFalse (gauge.Equals (comparand));
     }
 
     [TestMethod]
-    public void Equals_DifferentHandler_NotEqual()
+    public void Equals_DifferentHandler_NotEqual ()
     {
       var aide = new WeakHandlerTestsAide();
       WeakHandler gauge = aide.WeakHandler_ExistingTarget_Handler1();
       Delegate comparand = aide.Delegate_ExistingTarget_Handler2;
 
-      Assert.IsFalse(gauge.Equals(comparand));
+      Assert.IsFalse (gauge.Equals (comparand));
     }
 
     [TestMethod]
-    public void Equals_DifferentTarget_NotEqual()
+    public void Equals_DifferentTarget_NotEqual ()
     {
       WeakHandler gauge;
       {
         var aide1 = new WeakHandlerTestsAide();
-        gauge = aide1.WeakHandler_ExistingTarget_Handler1();
+        gauge = aide1.WeakHandler_ExistingTarget_Handler1 ();
       }
 
       Delegate comparand;
       {
         var aide2 = new WeakHandlerTestsAide();
         comparand = aide2.Delegate_ExistingTarget_Handler1;
-      }      
+      }
 
-      Assert.IsFalse(gauge.Equals(comparand));
+      Assert.IsFalse (gauge.Equals (comparand));
     }
 
     [TestMethod]
-    public void Equals_ComparandIsTheSame_Equal()
+    public void Equals_ComparandIsTheSame_Equal ()
     {
       var aide = new WeakHandlerTestsAide();
       WeakHandler gauge = aide.WeakHandler_ExistingTarget_Handler1();
       Delegate comparand = aide.Delegate_ExistingTarget_Handler1;
 
-      Assert.IsTrue(gauge.Equals(comparand));
+      Assert.IsTrue (gauge.Equals (comparand));
     }
 
     #endregion
     #region Invoke
 
     [TestMethod]
-    public void Invoke_TargetIsDead_NothingHappens()
+    public void Invoke_TargetIsDead_NothingHappens ()
     {
       var aide = new WeakHandlerTestsAide();
       WeakHandler wh = aide.WeakHandler_NewTarget_Exception();
 
-      GC.Collect();
+      GC.Collect ();
 
       try
       {
-        wh.Invoke();
+        wh.Invoke ();
       }
       catch
       {
-        Assert.IsTrue(false);
+        Assert.IsTrue (false);
       }
 
-      Assert.IsTrue(true);
+      Assert.IsTrue (true);
     }
 
     [TestMethod]
-    public void Invoke_TargetIsAlive_HandlerIvoked()
+    public void Invoke_TargetIsAlive_HandlerIvoked ()
     {
       var aide = new WeakHandlerTestsAide();
       WeakHandler wh = aide.WeakHandler_ExistingTarget_Exception();
 
-      Assert.ThrowsException<TargetInvocationException>(() => wh.Invoke());
+      Assert.ThrowsException<TargetInvocationException> (() => wh.Invoke ());
       try
       {
-        wh.Invoke();
+        wh.Invoke ();
       }
       catch (TargetInvocationException tie)
       {
-        Assert.AreEqual(WeakHandlerTestsAide.Target.ExceptionMessage, tie.InnerException.Message);
+        Assert.AreEqual (WeakHandlerTestsAide.Target.ExceptionMessage, tie.InnerException.Message);
       }
     }
 
@@ -151,7 +151,7 @@ namespace WeakEventCuratorTest.WeakHandlerTest
       WeakHandler wh = aide.WeakHandler_StaticHandler_StaticException();
 
       Assert.ThrowsException<TargetInvocationException> (() => wh.Invoke ());
-      
+
       try
       {
         wh.Invoke ();
