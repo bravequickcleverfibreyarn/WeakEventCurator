@@ -8,12 +8,12 @@ namespace Software9119.WeakEvent;
 /// <summary>
 /// Employs <see cref="WeakReference"/> for instance handlers. Static handlers are supported also.
 /// </summary>
-public class WeakHandler
+sealed public class WeakHandler
 {
   readonly WeakReference? weakTarget;
   readonly MethodInfo handlerInfo;
 
-  internal WeakHandler ( Delegate handler )
+  public WeakHandler ( Delegate handler )
   {
     MethodInfo handlerInfo = handler.Method;
     this.handlerInfo = handlerInfo;
@@ -23,9 +23,9 @@ public class WeakHandler
     weakTarget = new WeakReference (handler.Target);
   }
 
-  public bool IsAlive => weakTarget?.IsAlive == true || handlerInfo.IsStatic;
+  internal bool IsAlive => weakTarget?.IsAlive == true || handlerInfo.IsStatic;
 
-  public bool Equals ( Delegate del )
+  internal bool Equals ( Delegate del )
   {
     bool sameHandlers = handlerInfo == del.Method;
 
@@ -40,7 +40,7 @@ public class WeakHandler
     return false;
   }
 
-  public void Invoke ( params object []? parameters )
+  internal void Invoke ( params object? []? parameters )
   {
     object? target;
     if (handlerInfo.IsStatic)
