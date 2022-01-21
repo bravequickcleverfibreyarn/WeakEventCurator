@@ -704,3 +704,6 @@ dotnet_diagnostic.IL3001.severity = warning
 
 # IDE0022: Use block body for methods
 dotnet_diagnostic.IDE0022.severity = silent
+
+# CS1587: XML comment is not placed on a valid language element
+dotnet_diagnostic.CS1587.severity = silent
