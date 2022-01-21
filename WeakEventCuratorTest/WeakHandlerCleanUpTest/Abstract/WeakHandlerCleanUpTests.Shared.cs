@@ -13,20 +13,24 @@ namespace WeakEventCuratorTest.WeakHandlerCleanUpTest.Abstract;
 
 abstract public class WeakHandlerCleanUpTests_Shared
 {
-  const int cleanUpIntervalMillisec = 125;
+  const int cleanUpIntervalMillisecs = 125;
 
   abstract protected Type WeakHandlerCleanUpType { get; }
-  WeakHandlerCleanUp WeakHandlerCleanUp ( Dictionary<int, List<WeakHandler>> test )
+
+  WeakHandlerCleanUp WeakHandlerCleanUp ( Dictionary<int, List<WeakHandler>> test, int intervalMillisecs )
+    => WeakHandlerCleanUp ( test, TimeSpan.FromMilliseconds ( intervalMillisecs ) );
+
+  WeakHandlerCleanUp WeakHandlerCleanUp ( Dictionary<int, List<WeakHandler>> test, TimeSpan interval )
   => (WeakHandlerCleanUp) Activator.CreateInstance
     (
       type: WeakHandlerCleanUpType,
       bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public,
       null,
-      args: new object [] { test, TimeSpan.FromMilliseconds ( cleanUpIntervalMillisec ) },
+      args: new object [] { test, interval },
       CultureInfo.CurrentCulture
     )!;
 
-  static Task WaitWhile () => Task.Delay ( cleanUpIntervalMillisec * 2 );
+  static Task WaitWhile ( int intervalMillisecs ) => Task.Delay ( intervalMillisecs * 2 );
 
   [TestMethod]
   async public Task DeadHandlers__ListAndHandlersAreRemoved ()
@@ -46,14 +50,14 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [default(int)] = mortalHandlers
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test);
-    await WaitWhile ();
+    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( mortalsCount, mortalHandlers.Count );
     Assert.AreEqual ( 1, test.Count );
 
     GC.Collect (); // Have mortals die.
-    await WaitWhile ();
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 0, mortalHandlers.Count );
     Assert.AreEqual ( 0, test.Count );
@@ -80,14 +84,14 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [default(int)] = mixedHandlers
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test);
-    await WaitWhile ();
+    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 4, mixedHandlers.Count );
     Assert.AreEqual ( 1, test.Count );
 
     GC.Collect (); // Have mortals die.
-    await WaitWhile ();
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 2, mixedHandlers.Count );
     Assert.AreEqual ( 1, test.Count );
@@ -115,14 +119,14 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [default(int)] = immortalHandlers,
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test);
-    await WaitWhile ();
+    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 2, immortalHandlers.Count );
     Assert.AreEqual ( 1, test.Count );
 
     GC.Collect (); // Have mortals die.
-    await WaitWhile ();
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 2, immortalHandlers.Count );
     Assert.AreEqual ( 1, test.Count );
@@ -165,8 +169,8 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [3] = immortalHandlers,
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test);
-    await WaitWhile ();
+    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( mortalsCount, mortalHandlers.Count );
     Assert.AreEqual ( 4, mixedHandlers.Count );
@@ -175,7 +179,7 @@ abstract public class WeakHandlerCleanUpTests_Shared
     Assert.AreEqual ( 3, test.Count );
 
     GC.Collect (); // Have mortals die.
-    await WaitWhile ();
+    await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 2, test.Count );
 
@@ -190,5 +194,16 @@ abstract public class WeakHandlerCleanUpTests_Shared
     Assert.AreEqual ( 2, target.TestCount );
 
     await whcu.DisposeAsync ();
+  }
+
+  [TestMethod]
+  public void Interval_IsNotGreaterThanZero__ThrowsArgumentOutOfRangeException ()
+  {
+    TargetInvocationException tie = Assert.ThrowsException<TargetInvocationException>
+    (
+      () => WeakHandlerCleanUp ( new (), TimeSpan.Zero )
+    );
+
+    Assert.AreEqual ( typeof ( ArgumentOutOfRangeException ), tie.InnerException!.GetType () );
   }
 }

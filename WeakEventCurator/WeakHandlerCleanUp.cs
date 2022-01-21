@@ -15,24 +15,28 @@ public class WeakHandlerCleanUp : IDisposable, IAsyncDisposable
   readonly Timer cleanTimer;
   bool disposed;
 
-  internal WeakHandlerCleanUp
+  /// <exception cref="ArgumentOutOfRangeException">When <paramref name="interval"/> is not greater then <see cref="TimeSpan.Zero" />.</exception>
+  protected internal WeakHandlerCleanUp
   (
     Dictionary<int, List<WeakHandler>> handlerLists,
     TimeSpan interval
   )
   {
+    if ( interval <= TimeSpan.Zero )
+      throw new ArgumentOutOfRangeException ( paramName: nameof ( interval ), "Interval must be greater than TimeSpan.Zero!" );
+
     int cleanInterval = (int) interval.TotalMilliseconds;
 
     cleanTimer = new Timer
      (
-       _ => ClearHandlers (handlerLists),
+       _ => ClearHandlers ( handlerLists ),
        null,
        cleanInterval,
        cleanInterval
      );
   }
 
-  void ClearHandlers ( Dictionary<int, List<WeakHandler>> handlerLists ) => ClearHandlersActual (handlerLists);
+  void ClearHandlers ( Dictionary<int, List<WeakHandler>> handlerLists ) => ClearHandlersActual ( handlerLists );
 
   /// <remarks>  
   /// <para>
@@ -51,35 +55,35 @@ public class WeakHandlerCleanUp : IDisposable, IAsyncDisposable
   {
     // If previous execution is still running or client code is interacting with handlers,
     // skip this clearance iteration.
-    if (Monitor.TryEnter (handlerLists))
+    if ( Monitor.TryEnter ( handlerLists ) )
     {
-      foreach (KeyValuePair<int, List<WeakHandler>> kv in handlerLists)
+      foreach ( KeyValuePair<int, List<WeakHandler>> kv in handlerLists )
       {
         List<WeakHandler> list = kv.Value;
-        if (Monitor.TryEnter (list)) // Minimize contention with client code.
+        if ( Monitor.TryEnter ( list ) ) // Minimize contention with client code.
         {
-          _ = list.RemoveAll (wh => !wh.IsAlive);
-          if (list.Count == 0)
-            _ = handlerLists.Remove (kv.Key);
+          _ = list.RemoveAll ( wh => !wh.IsAlive );
+          if ( list.Count == 0 )
+            _ = handlerLists.Remove ( kv.Key );
 
-          Monitor.Exit (list);
+          Monitor.Exit ( list );
         }
       }
 
-      Monitor.Exit (handlerLists);
+      Monitor.Exit ( handlerLists );
     }
   }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member  
   public void Dispose ()
   {
-    if (disposed)
+    if ( disposed )
       return;
 
     cleanTimer.Dispose ();
 
-    Dispose (true);
-    GC.SuppressFinalize (this);
+    Dispose ( true );
+    GC.SuppressFinalize ( this );
 
     disposed = true;
   }
@@ -88,13 +92,13 @@ public class WeakHandlerCleanUp : IDisposable, IAsyncDisposable
 
   async public ValueTask DisposeAsync ()
   {
-    if (disposed)
+    if ( disposed )
       return;
 
     await cleanTimer.DisposeAsync ();
 
     await DisposeAsyncCore ();
-    GC.SuppressFinalize (this);
+    GC.SuppressFinalize ( this );
 
     disposed = true;
   }
