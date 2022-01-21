@@ -12,7 +12,7 @@ public class WeakEventCuratorTests_Invoke
   [TestMethod]
   public void EventSource_IsUnknown__ThrowsArgumentException ()
   {
-    using WeakEventCurator weakEventCurator = new ( default );
+    using WeakEventCurator weakEventCurator = new ( default, (x, y) => new WeakHandlerCleanUp(x, y));
 
     const string eventName = "eventName";
 
@@ -23,7 +23,7 @@ public class WeakEventCuratorTests_Invoke
   [TestMethod]
   public void EventName_IsUnknown__ThrowsArgumentException ()
   {
-    using WeakEventCurator weakEventCurator = new ( default );
+    using WeakEventCurator weakEventCurator = new ( default, (x, y) => new WeakHandlerCleanUp(x, y));
     object eventSource = new();
 
     weakEventCurator.Add ( eventSource, "eventName", string.Intern );
@@ -33,7 +33,7 @@ public class WeakEventCuratorTests_Invoke
   [TestMethod]
   public void EverythingAsExpected__InvokeWorks ()
   {
-    using WeakEventCurator weakEventCurator = new ( default );
+    using WeakEventCurator weakEventCurator = new ( default, (x, y) => new WeakHandlerCleanUp(x, y));
     WeakEventCuratorTests_InvokeAide aide  = new ();
 
     object eventSource      = new();
