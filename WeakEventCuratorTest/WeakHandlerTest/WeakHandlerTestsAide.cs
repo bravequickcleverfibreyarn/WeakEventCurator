@@ -1,4 +1,5 @@
-﻿using Software9119.WeakEvent;
+﻿
+using Software9119.WeakEvent;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -8,43 +9,39 @@ namespace WeakEventCuratorTest.WeakHandlerTest;
 [SuppressMessage ("Performance", "CA1822:Mark members as static", Justification = "Can result in doubled dot notation invocation manner.")]
 class WeakHandlerTestsAide
 {
-  public WeakHandlerTestsAide () => target = new Target ();
-
-  // Static handler
-
-  public WeakHandler WeakHandler_StaticHandler_StaticException () => new ((Action) Target.StaticException);
+  public WeakHandlerTestsAide () => Target = new TargetModel ();
 
   // Existing target
 
-  readonly Target target;
-  public WeakHandler WeakHandler_ExistingTarget_Handler1 () => new ((Action) target.Handler1);
+  readonly public TargetModel Target;
+  public WeakHandler WeakHandler_ExistingTarget_Handler () => new (ExistingTarget_Handler);
+  public Delegate ExistingTarget_Handler => (Action) Target.Handler;
 
-  public WeakHandler WeakHandler_ExistingTarget_Exception () => new ((Action) target.Exception);
+  public Delegate ExistingTarget_Handler__Other => (Action<int>) Target.Handler;
 
-  public Delegate Delegate_ExistingTarget_Handler1 => (Action) target.Handler1;
+  // New target
 
-  public Delegate Delegate_ExistingTarget_Handler2 => (Action) target.Handler2;
+  public WeakHandler WeakHandler_NewTarget_Handler () => new (NewTarget_Handler ());
+  public Delegate NewTarget_Handler () => (Action) new TargetModel ().Handler;
 
-  // New target    
-
-  public WeakHandler WeakHandler_NewTarget_Handler1 () => new (Delegate_NewTarget_Handler1 ());
-
-  public WeakHandler WeakHandler_NewTarget_Exception () => new ((Action) new Target ().Exception);
-
-  public Delegate Delegate_NewTarget_Handler1 () => (Action) new Target ().Handler1;
-
-
-  public class Target
+  public class TargetModel
   {
-    public const string ExceptionMessage = "This is rare and unique exception message – XY9sWn!";
+    int testCount;
+    public int TestCount => testCount;
 
-    public void Handler1 () { }
-
-    public void Handler2 () { }
-
-    public void Exception () => throw new Exception (ExceptionMessage);
-
-    static public void StaticException () => throw new Exception (ExceptionMessage);
+    public void Handler () => ++testCount;
+    public void Handler ( int _ ) { }
   }
 
+  public class StaticModel
+  {
+    int testCount;
+    public int TestCount => testCount;
+    public WeakHandler WeakHandler_Handler () => new (Delegate_Handler);
+    public Delegate Delegate_Handler => (Action<StaticModel>) Handler;
+    static public void Handler ( StaticModel thatThis ) => ++thatThis.testCount;
+
+    public Delegate Delegate_Handler__Other => (Action) Handler;
+    static public void Handler () { }
+  }
 }
