@@ -7,7 +7,7 @@ using System;
 namespace WeakEventCuratorTest.WeakHandlerTest;
 
 [TestClass]
-public class WeakHandlerTests_IsAlive
+sealed public class WeakHandlerTests_IsAlive
 {
   [TestMethod]
   public void NoReferenceToTarget__IsCollected ()
@@ -17,7 +17,7 @@ public class WeakHandlerTests_IsAlive
 
     GC.Collect ();
 
-    Assert.IsFalse (wh.IsAlive);
+    Assert.IsFalse ( wh.IsAlive );
   }
 
   [TestMethod]
@@ -28,7 +28,7 @@ public class WeakHandlerTests_IsAlive
 
     GC.Collect ();
 
-    Assert.IsTrue (weakHandler.IsAlive);
+    Assert.IsTrue ( weakHandler.IsAlive );
   }
 
   [TestMethod]
@@ -37,6 +37,6 @@ public class WeakHandlerTests_IsAlive
     WeakHandlerTestsAide.StaticModel staticHandler = new ();
     WeakHandler weakHandler = staticHandler.WeakHandler_Handler();
 
-    Assert.IsTrue (weakHandler.IsAlive);
+    Assert.IsTrue ( weakHandler.IsAlive );
   }
 }

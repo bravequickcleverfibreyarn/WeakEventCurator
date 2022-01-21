@@ -7,7 +7,7 @@ using System;
 namespace WeakEventCuratorTest.WeakHandlerTest;
 
 [TestClass]
-public class WeakHandlerTests_Equals
+sealed public class WeakHandlerTests_Equals
 {
   [TestMethod]
   public void TargetIsDead__NotEqual () // Can be merged with different target tests but why not.
@@ -17,7 +17,7 @@ public class WeakHandlerTests_Equals
     WeakHandler wh = aide.WeakHandler_NewTarget_Handler();
     GC.Collect ();
 
-    Assert.IsFalse (wh.Equals (aide.ExistingTarget_Handler));
+    Assert.IsFalse ( wh.Equals ( aide.ExistingTarget_Handler ) );
   }
 
   [TestMethod]
@@ -26,7 +26,7 @@ public class WeakHandlerTests_Equals
     WeakHandlerTestsAide aide = new ();
     WeakHandler wh = aide.WeakHandler_ExistingTarget_Handler ();
 
-    Assert.IsFalse (wh.Equals (aide.ExistingTarget_Handler__Other));
+    Assert.IsFalse ( wh.Equals ( aide.ExistingTarget_Handler__Other ) );
   }
 
   [TestMethod]
@@ -35,7 +35,7 @@ public class WeakHandlerTests_Equals
     WeakHandlerTestsAide aide = new ();
     WeakHandler wh = aide.WeakHandler_ExistingTarget_Handler ();
 
-    Assert.IsFalse (wh.Equals (aide.NewTarget_Handler));
+    Assert.IsFalse ( wh.Equals ( aide.NewTarget_Handler ) );
   }
 
   [TestMethod]
@@ -44,7 +44,7 @@ public class WeakHandlerTests_Equals
     WeakHandlerTestsAide aide = new ();
     WeakHandler wh = aide.WeakHandler_ExistingTarget_Handler();
 
-    Assert.IsTrue (wh.Equals (aide.ExistingTarget_Handler));
+    Assert.IsTrue ( wh.Equals ( aide.ExistingTarget_Handler ) );
   }
 
   [TestMethod]
@@ -53,7 +53,7 @@ public class WeakHandlerTests_Equals
     WeakHandlerTestsAide.StaticModel staticHandler = new ();
     WeakHandler wh = staticHandler.WeakHandler_Handler();
 
-    Assert.IsTrue (wh.Equals (staticHandler.Delegate_Handler));
+    Assert.IsTrue ( wh.Equals ( staticHandler.Delegate_Handler ) );
   }
 
   [TestMethod]
@@ -62,6 +62,6 @@ public class WeakHandlerTests_Equals
     WeakHandlerTestsAide.StaticModel staticHandler1 = new ();
     WeakHandler wh = staticHandler1.WeakHandler_Handler();
 
-    Assert.IsFalse (wh.Equals (staticHandler1.Delegate_Handler__Other));
+    Assert.IsFalse ( wh.Equals ( staticHandler1.Delegate_Handler__Other ) );
   }
 }

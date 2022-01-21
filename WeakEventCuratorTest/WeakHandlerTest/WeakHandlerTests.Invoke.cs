@@ -7,7 +7,7 @@ using System;
 namespace WeakEventCuratorTest.WeakHandlerTest;
 
 [TestClass]
-public class WeakHandlerTests_Invoke
+sealed public class WeakHandlerTests_Invoke
 {
   [TestMethod]
   public void TargetIsDead__NoException ()
@@ -18,7 +18,7 @@ public class WeakHandlerTests_Invoke
     GC.Collect ();
 
     wh.Invoke ();
-    Assert.IsTrue (true);
+    Assert.IsTrue ( true );
   }
 
   [TestMethod]
@@ -29,9 +29,9 @@ public class WeakHandlerTests_Invoke
 
     WeakHandlerTestsAide.TargetModel target = aide.Target;
 
-    Assert.AreEqual (0, target.TestCount);
+    Assert.AreEqual ( 0, target.TestCount );
     wh.Invoke ();
-    Assert.AreEqual (1, target.TestCount);
+    Assert.AreEqual ( 1, target.TestCount );
   }
 
   [TestMethod]
@@ -40,8 +40,8 @@ public class WeakHandlerTests_Invoke
     WeakHandlerTestsAide.StaticModel staticHandler = new ();
     WeakHandler weakHandler = staticHandler.WeakHandler_Handler();
 
-    Assert.AreEqual (0, staticHandler.TestCount);
-    weakHandler.Invoke (staticHandler);
-    Assert.AreEqual (1, staticHandler.TestCount);
+    Assert.AreEqual ( 0, staticHandler.TestCount );
+    weakHandler.Invoke ( staticHandler );
+    Assert.AreEqual ( 1, staticHandler.TestCount );
   }
 }
