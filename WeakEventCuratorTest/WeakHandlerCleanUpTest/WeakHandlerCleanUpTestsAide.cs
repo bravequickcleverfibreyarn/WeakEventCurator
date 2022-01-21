@@ -2,12 +2,12 @@
 
 namespace WeakEventCuratorTest.WeakHandlerCleanUpTest;
 
-class WeakHandlerCleanUpTestsAide
+sealed class WeakHandlerCleanUpTestsAide
 {
   readonly public TargetModel Target = new ();
 
-  public WeakHandler MortalOne () => new (new TargetModel ().Handler);
-  public WeakHandler ImmortalOne () => new (Target.Handler);
+  public WeakHandler MortalOne () => new ( new TargetModel ().Handler );
+  public WeakHandler ImmortalOne () => new ( Target.Handler );
 
   public class TargetModel
   {
