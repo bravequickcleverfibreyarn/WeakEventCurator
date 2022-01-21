@@ -1,5 +1,5 @@
 ﻿namespace WeakEventCuratorTest.WeakEventCuratorTest;
-class WeakEventCuratorTests_InvokeAide
+sealed class WeakEventCuratorTests_InvokeAide
 {
   int count;
   public int Count => count;

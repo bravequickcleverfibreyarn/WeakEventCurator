@@ -5,7 +5,7 @@ using System;
 namespace WeakEventCuratorTest.WeakEventCuratorTest;
 
 [TestClass]
-public class FrameworkBehavorialTests
+sealed public class FrameworkBehavorialTests
 {
   [TestMethod]
   public void SystemHashCodeComputesWithNulls ()

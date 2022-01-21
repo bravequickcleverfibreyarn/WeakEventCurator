@@ -7,7 +7,7 @@ using System;
 namespace WeakEventCuratorTest.WeakEventCuratorTest;
 
 [TestClass]
-public class WeakEventCuratorTests_Invoke
+sealed public class WeakEventCuratorTests_Invoke
 {
   [TestMethod]
   public void EventSource_IsUnknown__ThrowsArgumentException ()

@@ -5,7 +5,7 @@ using WeakEventCuratorTest.WeakEventCuratorTest.Abstract;
 namespace WeakEventCuratorTest.WeakEventCuratorTest;
 
 [TestClass]
-public class WeakEventCuratorTests_Add : WeakEventCuratorTests_Shared
+sealed public class WeakEventCuratorTests_Add : WeakEventCuratorTests_Shared
 {
   [ClassInitialize]
   static new public void Init ( TestContext tc ) => WeakEventCuratorTests_Shared.Init ( tc );
