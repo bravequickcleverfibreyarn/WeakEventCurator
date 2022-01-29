@@ -5,7 +5,9 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>", Scope = "type", Target = "~T:WeakEventCuratorTest.WeakHandlerTest.WeakHandlerTests")]
-[assembly: SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "<Pending>", Scope = "member", Target = "~M:WeakEventCuratorTest.WeakHandlerTest.WeakHandlerTestsAide.Target.Exception")]
-[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:WeakEventCuratorTest.WeakHandlerTest.WeakHandlerTests.Invoke_TargetIsDead_NothingHappens")]
-[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:WeakEventCuratorTest.WeakHandlerTest.WeakHandlerTests.Invoke_TargetIsAlive_HandlerIvoked")]
+[assembly: SuppressMessage ( "Performance", "CA1822:Mark members as static", Justification = "Results in undesired doubled member invocation style.", Scope = "type", Target = "~T:WeakEventCuratorTest.WeakHandlerCleanUpTest.WeakHandlerCleanUpTestsAide" )]
+[assembly: SuppressMessage ( "Performance", "CA1822:Mark members as static", Justification = "Results in undesired doubled member invocation style.", Scope = "type", Target = "~T:WeakEventCuratorTest.WeakHandlerTest.WeakHandlerTestsAide" )]
+
+[assembly: SuppressMessage ( "Performance", "CA1825:Avoid zero-length array allocations", Justification = "Useless.", Scope = "member", Target = "~M:WeakEventCuratorTest.WeakEventCuratorTest.Abstract.WeakEventCuratorTests_AddRemove_Shared.Handlers_IsEmpty__ThrowsArgumentException" )]
+
+[assembly: SuppressMessage ( "Style", "IDE0022:Use expression body for methods", Justification = "No room.", Scope = "type", Target = "~T:WeakEventCuratorTest.WeakHandlerFacilityTest.WeakHandlerFacilityTests" )]
