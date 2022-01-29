@@ -49,4 +49,56 @@ sealed public class WeakHandlerFacilityTests
     WeakHandlerCleanUp whcu = construction(default!);
     Assert.AreEqual ( typeof ( WeakHandlerCleanUp ), whcu.GetType () );
   }
+
+  [TestMethod]
+  public void EqualsSafe_WeakHandlerIsNull__ThrowsArgumentNullException ()
+  {
+    ArgumentNullException ane = Assert.ThrowsException<ArgumentNullException> ( () => WeakHandlerFacility.EqualsSafe ( null!, string.Intern ) );
+    Debug.WriteLine ( ane.Message );
+  }
+
+  [TestMethod]
+  public void EqualsSafe_DelegateIsNull__ThrowsArgumentNullException ()
+  {
+    ArgumentNullException ane = Assert.ThrowsException<ArgumentNullException> ( () => WeakHandlerFacility.EqualsSafe ( new WeakHandler(string.Intern), null! ) );
+    Debug.WriteLine ( ane.Message );
+  }
+
+  [TestMethod]
+  public void EqualsSafe_SameHandlers__ReturnsTrue ()
+  {
+    Delegate del = string.Intern;
+    Assert.IsTrue ( WeakHandlerFacility.EqualsSafe ( new WeakHandler ( del ), del ) );
+  }
+
+  [TestMethod]
+  public void EqualsSafe_DifferentHandlers__ReturnsFalse ()
+  {
+    Assert.IsFalse ( WeakHandlerFacility.EqualsSafe ( new WeakHandler ( string.Intern ), string.IsInterned ) );
+  }
+
+  [TestMethod]
+  public void Equals_WeakHandlerIsNull__ThrowsNullReferenceException ()
+  {
+    _ = Assert.ThrowsException<NullReferenceException> ( () => WeakHandlerFacility.Equals ( null!, string.Intern ) );
+  }
+
+  [TestMethod]
+  public void Equals_DelegateIsNull__ThrowsNullReferenceException ()
+  {
+    _ = Assert.ThrowsException<NullReferenceException> ( () => WeakHandlerFacility.Equals ( new WeakHandler ( string.Intern ), null! ) );
+  }
+
+  [TestMethod]
+  public void Equals_SameHandlers__ReturnsTrue ()
+  {
+    Delegate del = string.Intern;
+    Assert.IsTrue ( WeakHandlerFacility.Equals ( new WeakHandler ( del ), del ) );
+  }
+
+  [TestMethod]
+  public void Equals_DifferentHandlers__ReturnsFalse ()
+  {
+    Assert.IsFalse ( WeakHandlerFacility.Equals ( new WeakHandler ( string.Intern ), string.IsInterned ) );
+  }
 }

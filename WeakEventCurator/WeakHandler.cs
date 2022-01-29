@@ -25,7 +25,7 @@ sealed public class WeakHandler
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
   public bool IsAlive => weakTarget?.IsAlive == true || handlerInfo.IsStatic;
 
-  public bool Equals ( Delegate del )
+  internal bool Equals ( Delegate del )
   {
     bool sameHandlers = handlerInfo == del.Method;
 
