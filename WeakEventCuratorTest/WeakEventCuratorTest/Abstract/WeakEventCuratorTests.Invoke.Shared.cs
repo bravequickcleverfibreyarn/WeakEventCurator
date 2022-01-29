@@ -3,6 +3,7 @@
 using Software9119.WeakEvent;
 
 using System;
+using System.Diagnostics;
 
 namespace WeakEventCuratorTest.WeakEventCuratorTest.Abstract;
 
@@ -16,7 +17,8 @@ abstract public class WeakEventCuratorTests_Invoke_Shared : WeakEventCuratorTest
     const string eventName = "eventName";
 
     wec.Add ( new object (), eventName, string.Intern );
-    _ = Assert.ThrowsException<ArgumentException> ( () => wec.Invoke ( new object (), eventName, "" ) );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => wec.Invoke ( new object (), eventName, "" ) );
+    Debug.Write ( ae.Message ); // output message
   }
 
   [TestMethod]
@@ -26,7 +28,8 @@ abstract public class WeakEventCuratorTests_Invoke_Shared : WeakEventCuratorTest
     object eventSource = new();
 
     wec.Add ( eventSource, "eventName", string.Intern );
-    _ = Assert.ThrowsException<ArgumentException> ( () => wec.Invoke ( eventSource, "unknownName", "" ) );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => wec.Invoke ( eventSource, "unknownName", "" ) );
+    Debug.Write ( ae.Message ); // output message
   }
 
   [TestMethod]

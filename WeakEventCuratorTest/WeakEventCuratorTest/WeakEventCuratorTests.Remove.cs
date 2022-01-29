@@ -3,6 +3,7 @@
 using Software9119.WeakEvent;
 
 using System;
+using System.Diagnostics;
 
 using WeakEventCuratorTest.WeakEventCuratorTest.Abstract;
 
@@ -27,9 +28,24 @@ public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shar
     wec.Add ( eventSource, eventName, handler );
     Remove ();
 
-    _ = Assert.ThrowsException<ArgumentException> ( () => Remove () );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => Remove () );
+    Debug.Write ( ae.Message ); // output message
 
     void Remove () => wec.Remove ( eventSource, eventName, handler );
+  }
+
+  [TestMethod]
+  public void DoubleHandlerAddition__ThrowsArgumentException ()
+  {
+    object eventSource      = new();
+    const string eventName  = "eventName";
+    Delegate handler        = string.Intern;
+
+    using WeakEventCurator wec = WeakEventCurator();
+
+    wec.Add ( eventSource, eventName, handler, handler );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( eventSource, eventName, handler ) );
+    Debug.Write ( ae.Message ); // output message
   }
 
   [TestMethod]
@@ -41,7 +57,8 @@ public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shar
     using WeakEventCurator wec = WeakEventCurator();
     wec.Add ( new object (), eventName, handler );
 
-    _ = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( new object (), eventName, handler ) );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( new object (), eventName, handler ) );
+    Debug.Write ( ae.Message ); // output message
   }
 
   [TestMethod]
@@ -53,7 +70,8 @@ public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shar
     using WeakEventCurator wec = WeakEventCurator();
     wec.Add ( eventSource, "eventName", handler );
 
-    _ = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( eventSource, "unknownName", handler ) );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( eventSource, "unknownName", handler ) );
+    Debug.Write ( ae.Message ); // output message
   }
 
   [TestMethod]
@@ -64,6 +82,7 @@ public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shar
 
     using WeakEventCurator wec = WeakEventCurator();
     wec.Add ( eventSource, eventName, string.Intern );
-    _ = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( eventSource, eventName, string.IsInterned ) );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( eventSource, eventName, string.IsInterned ) );
+    Debug.Write ( ae.Message ); // output message
   }
 }

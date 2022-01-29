@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
+using System.Diagnostics;
 
 namespace WeakEventCuratorTest.WeakEventCuratorTest.Abstract;
 
@@ -17,7 +18,9 @@ abstract public class WeakEventCuratorTests_AddRemove_Shared : WeakEventCuratorT
   public void Handlers_IsNull__ThrowsArgumentNullException ()
   {
     AddRemove del = AddRemoveDelegate;
-    _ = Assert.ThrowsException<ArgumentNullException> ( () => del ( new object (), "", null! ) );
+    ArgumentNullException ane = Assert.ThrowsException<ArgumentNullException> ( () => del ( new object (), "", null! ) );
+    Debug.Write ( ane.Message ); // output message
+
     ((IDisposable) del.Target!).Dispose ();
   }
 
@@ -25,7 +28,9 @@ abstract public class WeakEventCuratorTests_AddRemove_Shared : WeakEventCuratorT
   public void Handlers_IsEmpty__ThrowsArgumentException ()
   {
     AddRemove del = AddRemoveDelegate;
-    _ = Assert.ThrowsException<ArgumentException> ( () => del ( new object (), "", new Delegate [0] ) );
+    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => del ( new object (), "", new Delegate [0] ) );
+    Debug.Write ( ae.Message ); // output message
+
     ((IDisposable) del.Target!).Dispose ();
   }
 
@@ -33,7 +38,9 @@ abstract public class WeakEventCuratorTests_AddRemove_Shared : WeakEventCuratorT
   public void Handlers_HasNullDelegate__ThrowsArgumentException ()
   {
     AddRemove del = AddRemoveDelegate;
-    _ = Assert.ThrowsException<ArgumentException> ( () => del ( new object (), "", string.IsNullOrWhiteSpace, null! ) );
+    ArgumentException ae  = Assert.ThrowsException<ArgumentException> ( () => del ( new object (), "", string.IsNullOrWhiteSpace, null! ) );
+    Debug.Write ( ae.Message ); // output message
+
     ((IDisposable) del.Target!).Dispose ();
   }
 }
