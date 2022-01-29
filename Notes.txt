@@ -1,2 +1,1 @@
 ﻿• invent selfextending collection with better characteristics than List<T>
-• validate locking logic once again after finalization
