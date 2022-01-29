@@ -45,7 +45,7 @@ public class WeakHandlerCleanUp : IDisposable, IAsyncDisposable
   /// implementations in derived classes when seeking optimal perfomance profile for specific scenario.
   /// </para>
   /// <para>
-  /// Actual implementation synchronization is realized through <see langword="lock"/>ing on discrete collections of handlers.
+  /// Actual synchronization implementation is realized through <see langword="lock"/>ing on discrete collections of handlers.
   /// </para>
   /// <para>
   /// If <see langword="lock"/> cannot be taken on handler collection, iteration is skipped.

@@ -22,9 +22,10 @@ sealed public class WeakHandler
     weakTarget = new WeakReference ( handler.Target );
   }
 
-  internal bool IsAlive => weakTarget?.IsAlive == true || handlerInfo.IsStatic;
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+  public bool IsAlive => weakTarget?.IsAlive == true || handlerInfo.IsStatic;
 
-  internal bool Equals ( Delegate del )
+  public bool Equals ( Delegate del )
   {
     bool sameHandlers = handlerInfo == del.Method;
 
@@ -39,7 +40,7 @@ sealed public class WeakHandler
     return false;
   }
 
-  internal void Invoke ( params object? []? parameters )
+  public void Invoke ( params object? []? parameters )
   {
     object? target;
     if ( handlerInfo.IsStatic )
@@ -54,4 +55,5 @@ sealed public class WeakHandler
 
     _ = handlerInfo.Invoke ( target, parameters );
   }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
