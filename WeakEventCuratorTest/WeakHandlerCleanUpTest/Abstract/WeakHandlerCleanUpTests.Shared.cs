@@ -4,6 +4,7 @@ using Software9119.WeakEvent;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -132,6 +133,8 @@ abstract public class WeakHandlerCleanUpTests_Shared
     Assert.AreEqual ( 1, test.Count );
 
     await whcu.DisposeAsync ();
+
+    Console.Write ( $"PRINT {aide.Target} JUST TO KEEP IT ALIVE IN RELEASE MODE." );
   }
 
   [TestMethod]
