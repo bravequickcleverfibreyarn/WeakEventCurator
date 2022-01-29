@@ -22,11 +22,11 @@ public partial class WeakEventCurator
   /// ◾ If no handler list is held for <paramref name="eventSource"/> and <paramref name="eventName"/>.
   /// </para>
   /// <para>
-  /// ◾ If <see cref="Delegate"/> cannot be found in handler collection, i.e. removed delegate count is less than <paramref name="handlers"/> count.
+  /// ◾ If <see cref="Delegate"/> cannot be found in handler collection, i.e. removed items count is less than <paramref name="handlers"/> count.
   /// </para>
   /// </exception>  
   /// <exception cref="InvalidOperationException">  
-  /// If removed delagate count is greater than <paramref name="handlers"/> count. See <see cref="Add(object?, string?, Delegate[])"/> and
+  /// If removed items count is greater than <paramref name="handlers"/> count. See <see cref="Add(object?, string?, Delegate[])"/> and
   /// rules of delegate equality for details.
   /// </exception>
   public void Remove ( object? eventSource, string? eventName, params Delegate [] handlers ) => RemoveActual ( eventSource, eventName, handlers );
