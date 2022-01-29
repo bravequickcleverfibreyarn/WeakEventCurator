@@ -1,1 +1,1 @@
-﻿• invent selfextending collection with better characteristics than List<T>
+﻿• invent selfextending collection with better characteristics than List<T> (autoextender?, autoexpander?)
