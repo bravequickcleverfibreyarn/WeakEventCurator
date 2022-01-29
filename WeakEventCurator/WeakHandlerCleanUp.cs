@@ -40,15 +40,15 @@ public class WeakHandlerCleanUp : IDisposable, IAsyncDisposable
 
   /// <remarks>  
   /// <para>
-  /// <see langword="override"/> <see cref="WeakEventCurator.AddActual(object, string, Delegate[])"/>, <seealso cref="WeakEventCurator.RemoveActual(object, string, Delegate[])"/>,
+  /// ◾ <see langword="override"/> <see cref="WeakEventCurator.AddActual(object, string, Delegate[])"/>, <see cref="WeakEventCurator.RemoveActual(object, string, Delegate[])"/>,
   /// <see cref="WeakEventCurator.InvokeActual(object, string, object[])"/> and <see cref="ClearHandlersActual(Dictionary{int, List{WeakHandler}})"/>
   /// implementations in derived classes when seeking optimal perfomance profile for specific scenario.
   /// </para>
   /// <para>
-  /// Actual synchronization implementation is realized through <see langword="lock"/>ing on discrete collections of handlers.
+  /// ◾ Actual synchronization implementation is realized through <see langword="lock"/>ing on discrete collections of handlers.
   /// </para>
   /// <para>
-  /// If <see langword="lock"/> cannot be taken on handler collection, iteration is skipped.
+  /// ◾ If <see langword="lock"/> cannot be taken on handler collection, iteration is skipped.
   /// </para>
   /// </remarks>
   virtual protected void ClearHandlersActual ( Dictionary<int, List<WeakHandler>> handlerLists )

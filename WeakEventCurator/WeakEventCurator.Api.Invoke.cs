@@ -5,12 +5,10 @@ namespace Software9119.WeakEvent;
 public partial class WeakEventCurator
 {
   /// <remarks>
-  /// <para>
   /// Use proper values for <paramref name="eventSource"/> and <paramref name="eventName"/> when there is more event sources or events.
-  /// </para>
   /// </remarks>
   /// <exception cref="ArgumentException">
-  ///   If no handler list is held for <paramref name="eventSource"/> and <paramref name="eventName"/>.
+  /// If no handler list is held for <paramref name="eventSource"/> and <paramref name="eventName"/>.
   /// </exception>
   public void Invoke ( object? eventSource, string? eventName, params object? []? parameters ) => InvokeActual ( eventSource, eventName, parameters );
 

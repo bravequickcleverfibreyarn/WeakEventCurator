@@ -6,16 +6,19 @@ public partial class WeakEventCurator
 {
   /// <remarks>
   /// <para>
-  /// Handlers are not validated for multiple inserts thus upon manual removal there can be removed more handlers than were passed
+  /// ◾ Handlers are not validated for multiple inserts thus upon manual removal there can be removed more handlers than were passed
   /// for removal, i.e. all which are equal. This results in exception thrown.
   /// </para>
   /// <para>
-  /// Use proper values for <paramref name="eventSource"/> and <paramref name="eventName"/> when there is more event sources or events.
+  /// ◾ Use proper values for <paramref name="eventSource"/> and <paramref name="eventName"/> when there is more event sources or events.
+  /// </para>
+  /// <para>
+  /// ◾ See <see href="https://docs.microsoft.com/en-us/dotnet/api/system.delegate.equals?view=net-6.0#remarks"/> for details on rules of delegate
+  /// equality.
   /// </para>
   /// </remarks>
-  /// <exception cref="ArgumentNullException">If <paramref name="handlers"/>> is <see langword="null"/>.</exception>
+  /// <exception cref="ArgumentNullException">If <paramref name="handlers"/> is <see langword="null"/>.</exception>
   /// <exception cref="ArgumentException">If <paramref name="handlers"/> is empty or any of <see cref="Delegate"/>s is <see langword="null"/>.</exception>
-  /// <seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.delegate.equals?view=net-6.0#remarks"/>
   public void Add ( object? eventSource, string? eventName, params Delegate [] handlers ) => AddActual ( eventSource, eventName, handlers );
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

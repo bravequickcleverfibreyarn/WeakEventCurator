@@ -6,21 +6,25 @@ using System.Threading.Tasks;
 namespace Software9119.WeakEvent;
 
 /// <summary>
-/// Weak event pattern allows to register for event without need to explicit deregistration.
-/// Thus it denies event listener memory leaks.
-/// </summary>
-/// <seealso href="https://docs.microsoft.com/en-us/dotnet/desktop/wpf/advanced/weak-event-patterns?view=netframeworkdesktop-4.8"/>
-/// <remarks>
 /// <para>
-/// All methods except disposal-pattern ones are thread-safe.
+/// ◾ Weak event pattern allows to register for event without need to explicit deregistration.
+/// Thus it denies event listener memory leaks.
 /// </para>
 /// <para>
-/// <see langword="override"/> <see cref="AddActual(object, string, Delegate[])"/>, <seealso cref="RemoveActual(object, string, Delegate[])"/>,
+/// ◾ See also <see href="https://docs.microsoft.com/en-us/dotnet/desktop/wpf/advanced/weak-event-patterns?view=netframeworkdesktop-4.8"/>.
+/// </para>
+/// </summary>
+/// <remarks>
+/// <para>
+/// ◾ All methods except disposal-pattern ones are thread-safe.
+/// </para>
+/// <para>
+/// ◾ <see langword="override"/> <see cref="AddActual(object, string, Delegate[])"/>, <see cref="RemoveActual(object, string, Delegate[])"/>,
 /// <see cref="InvokeActual(object, string, object[])"/> and <see cref="WeakHandlerCleanUp.ClearHandlersActual(Dictionary{int, List{WeakHandler}})"/>
 /// implementations in derived classes when seeking optimal perfomance profile for specific scenario.
 /// </para>
 /// <para>
-/// Actual synchronization implementation is realized through <see langword="lock"/>ing on private collections of handlers.
+/// ◾ Actual synchronization implementation is realized through <see langword="lock"/>ing on private collections of handlers.
 /// </para>
 /// </remarks>
 public partial class WeakEventCurator : IDisposable, IAsyncDisposable
@@ -40,10 +44,16 @@ public partial class WeakEventCurator : IDisposable, IAsyncDisposable
   bool disposed;
   readonly WeakHandlerCleanUp cleaner;
 
+  ///<remarks>
+  ///<para>
+  /// ◾ See also <see cref="WeakHandlerCleanUp"/>.
+  ///</para>
+  ///<para>
+  /// ◾ See also <see cref="WeakHandlerFacility.WeakHandlerCleanUpConstruction(TimeSpan)"/>.
+  ///</para>
+  /// </remarks>
   /// <exception cref="ArgumentNullException">When <paramref name="cleanUpConstruction"/> is <see langword="null"/>.</exception>
   /// <exception cref="ArgumentException">When <paramref name="cleanUpConstruction"/> returns <see langword="null"/>.</exception>
-  /// <seealso cref="WeakHandlerCleanUp"/>
-  /// <seealso cref="WeakHandlerFacility.WeakHandlerCleanUpConstruction(TimeSpan)"/>
   public WeakEventCurator ( Func<Dictionary<int, List<WeakHandler>>, WeakHandlerCleanUp> cleanUpConstruction )
   {
     if ( cleanUpConstruction is null )

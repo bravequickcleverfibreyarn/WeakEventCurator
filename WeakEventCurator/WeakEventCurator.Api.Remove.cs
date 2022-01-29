@@ -6,26 +6,29 @@ public partial class WeakEventCurator
 {
   /// <remarks>
   /// <para>
-  /// Use proper values for <paramref name="eventSource"/> and <paramref name="eventName"/> when there is more event sources or events.
+  /// ◾ Use proper values for <paramref name="eventSource"/> and <paramref name="eventName"/> when there is more event sources or events.
+  /// </para>
+  /// <para>
+  /// ◾ See <see href="https://docs.microsoft.com/en-us/dotnet/api/system.delegate.equals?view=net-6.0#remarks"/> for details on rules of delegate
+  /// equality.
   /// </para>
   /// </remarks>
-  /// <exception cref="ArgumentNullException">If <paramref name="handlers"/>> is <see langword="null"/>.</exception>
+  /// <exception cref="ArgumentNullException">If <paramref name="handlers"/> is <see langword="null"/>.</exception>
   /// <exception cref="ArgumentException">
   /// <para>
-  /// If <paramref name="handlers"/> is empty or any of <see cref="Delegate"/>s is <see langword="null"/>.
+  /// ◾ If <paramref name="handlers"/> is empty or any of <see cref="Delegate"/>s is <see langword="null"/>.
   /// </para>
   /// <para>
-  /// If no handler list is held for <paramref name="eventSource"/> and <paramref name="eventName"/>.
+  /// ◾ If no handler list is held for <paramref name="eventSource"/> and <paramref name="eventName"/>.
   /// </para>
   /// <para>
-  /// If <see cref="Delegate"/> cannot be found in handler collection, i.e. removed delegates count is less than <paramref name="handlers"/> count.
+  /// ◾ If <see cref="Delegate"/> cannot be found in handler collection, i.e. removed delegate count is less than <paramref name="handlers"/> count.
   /// </para>
   /// </exception>  
   /// <exception cref="InvalidOperationException">  
-  /// If removed delagates count is greater than <paramref name="handlers"/> count. See <see cref="Add(object?, string?, Delegate[])"/> and
-  /// rules of delegates equality for details.
-  /// </exception>  
-  /// <seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.delegate.equals?view=net-6.0#remarks"/>
+  /// If removed delagate count is greater than <paramref name="handlers"/> count. See <see cref="Add(object?, string?, Delegate[])"/> and
+  /// rules of delegate equality for details.
+  /// </exception>
   public void Remove ( object? eventSource, string? eventName, params Delegate [] handlers ) => RemoveActual ( eventSource, eventName, handlers );
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

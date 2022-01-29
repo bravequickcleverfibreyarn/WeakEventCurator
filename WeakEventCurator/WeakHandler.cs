@@ -7,6 +7,9 @@ namespace Software9119.WeakEvent;
 /// <summary>
 /// Employs <see cref="WeakReference"/> for instance handlers. Static handlers are supported also.
 /// </summary>
+/// <remarks>
+/// See also <see cref="WeakHandlerFacility"/>.
+/// </remarks>
 sealed public class WeakHandler
 {
   readonly WeakReference? weakTarget;
