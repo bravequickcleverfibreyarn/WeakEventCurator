@@ -9,7 +9,7 @@ using WeakEventCuratorTest.WeakEventCuratorTest.Abstract;
 namespace WeakEventCuratorTest.WeakEventCuratorTest;
 
 [TestClass]
-sealed public class WeakEventCuratorTests_Invoke : WeakEventCuratorTests_Invoke_Shared
+public class WeakEventCuratorTests_Invoke : WeakEventCuratorTests_Invoke_Shared
 {
   override protected Type WeakEventCuratorType => typeof ( WeakEventCurator );
 }
