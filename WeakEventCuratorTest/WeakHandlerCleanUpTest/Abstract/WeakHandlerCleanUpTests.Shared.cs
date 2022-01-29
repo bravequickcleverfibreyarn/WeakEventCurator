@@ -4,7 +4,6 @@ using Software9119.WeakEvent;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -51,7 +50,7 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [default(int)] = mortalHandlers
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    using WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
     await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( mortalsCount, mortalHandlers.Count );
@@ -62,8 +61,6 @@ abstract public class WeakHandlerCleanUpTests_Shared
 
     Assert.AreEqual ( 0, mortalHandlers.Count );
     Assert.AreEqual ( 0, test.Count );
-
-    await whcu.DisposeAsync ();
   }
 
   [TestMethod]
@@ -85,7 +82,7 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [default(int)] = mixedHandlers
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    using WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
     await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 4, mixedHandlers.Count );
@@ -100,8 +97,6 @@ abstract public class WeakHandlerCleanUpTests_Shared
     Assert.AreEqual ( 0, target.TestCount );
     mixedHandlers.ForEach ( x => x.Invoke ( null ) );
     Assert.AreEqual ( 2, target.TestCount );
-
-    await whcu.DisposeAsync ();
   }
 
   [TestMethod]
@@ -120,7 +115,7 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [default(int)] = immortalHandlers,
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    using WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
     await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( 2, immortalHandlers.Count );
@@ -131,8 +126,6 @@ abstract public class WeakHandlerCleanUpTests_Shared
 
     Assert.AreEqual ( 2, immortalHandlers.Count );
     Assert.AreEqual ( 1, test.Count );
-
-    await whcu.DisposeAsync ();
 
     Console.Write ( $"PRINT {aide.Target} JUST TO KEEP IT ALIVE IN RELEASE MODE." );
   }
@@ -172,7 +165,7 @@ abstract public class WeakHandlerCleanUpTests_Shared
       [3] = immortalHandlers,
     };
 
-    WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
+    using WeakHandlerCleanUp whcu = WeakHandlerCleanUp(test, cleanUpIntervalMillisecs);
     await WaitWhile ( cleanUpIntervalMillisecs );
 
     Assert.AreEqual ( mortalsCount, mortalHandlers.Count );
@@ -195,7 +188,5 @@ abstract public class WeakHandlerCleanUpTests_Shared
     Assert.AreEqual ( 0, target.TestCount );
     mixedHandlers.ForEach ( x => x.Invoke ( null ) );
     Assert.AreEqual ( 2, target.TestCount );
-
-    await whcu.DisposeAsync ();
   }
 }
