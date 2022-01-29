@@ -4,6 +4,7 @@ using Software9119.WeakEvent;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WeakEventCuratorTest.WeakHandlerFacilityTest;
 
@@ -13,7 +14,8 @@ sealed public class WeakHandlerFacilityTests
   [TestMethod]
   public void WeakHandlerSafe__DelegateIsNull__ThrowsArgumentNullException ()
   {
-    _ = Assert.ThrowsException<ArgumentNullException> ( () => WeakHandlerFacility.WeakHandlerSafe ( null! ) );
+    ArgumentNullException ane = Assert.ThrowsException<ArgumentNullException> ( () => WeakHandlerFacility.WeakHandlerSafe ( null! ) );
+    Debug.Write ( ane.Message ); // output message
   }
 
   [TestMethod]

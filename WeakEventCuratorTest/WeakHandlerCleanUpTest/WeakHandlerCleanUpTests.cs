@@ -3,6 +3,7 @@
 using Software9119.WeakEvent;
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 
 using WeakEventCuratorTest.WeakHandlerCleanUpTest.Abstract;
@@ -22,6 +23,8 @@ sealed public class WeakHandlerCleanUpTests : WeakHandlerCleanUpTests_Shared
       () => WeakHandlerCleanUp ( new (), TimeSpan.Zero )
     );
 
-    Assert.AreEqual ( typeof ( ArgumentOutOfRangeException ), tie.InnerException!.GetType () );
+    Exception innerException = tie.InnerException!;
+    Assert.AreEqual ( typeof ( ArgumentOutOfRangeException ), innerException.GetType () );
+    Debug.Write ( innerException.Message ); // output message
   }
 }
