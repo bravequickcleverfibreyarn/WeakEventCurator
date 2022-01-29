@@ -35,7 +35,7 @@ public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shar
   }
 
   [TestMethod]
-  public void DoubleHandlerAddition__ThrowsArgumentException ()
+  public void DoubleHandlerAddition__ThrowsInvalidOperationException ()
   {
     object eventSource      = new();
     const string eventName  = "eventName";
@@ -44,8 +44,8 @@ public class WeakEventCuratorTests_Remove : WeakEventCuratorTests_AddRemove_Shar
     using WeakEventCurator wec = WeakEventCurator();
 
     wec.Add ( eventSource, eventName, handler, handler );
-    ArgumentException ae = Assert.ThrowsException<ArgumentException> ( () => wec.Remove ( eventSource, eventName, handler ) );
-    Debug.Write ( ae.Message ); // output message
+    InvalidOperationException ioe = Assert.ThrowsException<InvalidOperationException> ( () => wec.Remove ( eventSource, eventName, handler ) );
+    Debug.Write ( ioe.Message ); // output message
   }
 
   [TestMethod]
