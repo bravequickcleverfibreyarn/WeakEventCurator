@@ -18,7 +18,6 @@ sealed public class WeakHandlerTests_Invoke
     GC.Collect ();
 
     wh.Invoke ();
-    Assert.IsTrue ( true );
   }
 
   [TestMethod]
