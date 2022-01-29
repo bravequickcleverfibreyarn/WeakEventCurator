@@ -8,11 +8,10 @@ namespace WeakEventCuratorTest.WeakEventCuratorTest.Abstract;
 abstract public class WeakEventCuratorTests_AddRemove_Shared : WeakEventCuratorTests_Shared
 {
 
-  protected delegate void AddRemove ( object eventSource, string eventName, params Delegate [] handlers );
+  protected delegate void AddRemove ( object? eventSource, string? eventName, params Delegate [] handlers );
 
   abstract protected AddRemove AddRemoveDelegate { get; }
 
-  // Execution
 
   [TestMethod]
   public void Handlers_IsNull__ThrowsArgumentNullException ()
